@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des builds{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('build') }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="col-12 text-center text-white">Liste des builds</h1>
+
+    <div class="col-5 wrapper row justify-content-center pr-1 pl-1">
+        {{ include('build/list.html.twig') }}
+    </div>
+
+{% endblock %}

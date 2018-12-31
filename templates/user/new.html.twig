@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New User{% endblock %}
+
+{% block body %}
+    <h1 class="col-12 m-2 text-center">Création d'un utilisateur</h1>
+
+    <div class="col-12 row justify-content-center align-items-center align-content-center">
+        {{ include('user/_form.html.twig') }}
+    </div>
+
+    <div class="col-12 row justify-content-start">
+        <a class="col-auto btn btn-outline-primary" href="{{ path('app_build_index') }}">Retour aux builds</a>
+    </div>
+{% endblock %}

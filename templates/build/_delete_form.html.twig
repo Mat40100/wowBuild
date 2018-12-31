@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('app_build_delete', {'id': build.id}) }}" onsubmit="return confirm('Vous êtes sure de vouloir supprimer ce build?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ build.id) }}">
+    <button class="btn btn-outline-danger">Supprimer</button>
+</form>

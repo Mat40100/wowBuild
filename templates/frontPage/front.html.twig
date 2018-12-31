@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des builds{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('frontPage') }}
+
+{% endblock %}
+
+{% block body %}
+    <div class="col-5 wrapper row justify-content-center pr-1 pl-1">
+        <h2 class="col-12 text-center">Les derniers builds</h2>
+        {{ include('build/list.html.twig') }}
+    </div>
+
+    <div class="col-5 row">
+        <div class="col-12 wrapper row justify-content-center align-content-start pr-1 pl-1">
+            <h2 class="col-12 text-center">Top 3</h2>
+
+            <div class="col-12 row">
+                {% for class in allClass %}
+                    <img class="topThreeAssets" name="{{ class.id }}" src="{{ asset('../build/images/img/'~ class.img ) }}" alt="{{ class.name }}">
+                {% endfor %}
+            </div>
+
+            <div id="ajax-loading"></div>
+
+            <div class="col-12 row justify-content-center align-items-center mt-2">
+                {{ include('frontPage/top.html.twig') }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+   {{ encore_entry_script_tags('frontPage') }}
+{% endblock %}

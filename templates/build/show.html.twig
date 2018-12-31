@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ build.title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('build') }}
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script>var whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>
+    <script src="http://wow.zamimg.com/widgets/power.js"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="build col-12">
+        <div class="row col-12 title text-center">
+            <h1 class="col-12">{{ build.title }}</h1>
+            <a href="{{ path('app_vote_add', {'id': build.id , 'value': '1' }) }}" class="votePos icon m-1 pl-1">{{ build.countPos }}</a>
+            <a href="{{ path('app_vote_add', {'id': build.id, 'value': '0' }) }}" class="voteNeg icon m-1 pl-1">{{ build.countNeg }}</a>
+        </div>
+        <div class="col-12 row p-0 m-2 justify-content-between">
+            <div class="col-2 author row justify-content-center align-items-center align-content-center">
+                <div class="col-12 username text-center" style="color:{{ build.author.wowClass.color }}"> {{ build.author.username }}</div>
+                <img class="img" src="{{ build.author.wowClass ? asset('build/images/img/' ~ build.author.wowClass.img ) : '' }}" alt="{{ build.author.username }}">
+            </div>
+            <div class="col">
+                <div class="header col-12 text-left">
+                    <i>Crée le {{ build.creationDate |date('d-m-Y') }}</i>
+                    {% if build.author is same as(app.user) or is_granted('ROLE_ADMIN')%}
+                        <a class="edit" href="{{ path('app_build_edit', { 'id': build.id}) }}"></a>
+                    {% endif %}
+                </div>
+                <div class="col-12 mt-1">
+                    {{ build.content | bbCode | raw }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row col-12 text-center comments justify-content-center align-content-center align-items-center">
+        <h3 class="col-12 text-center mb-2">Commentaires</h3>
+        <div class="col-8 border-bottom"></div>
+        {% for comment in build.comments %}
+            {% if comment.author is same as(build.author) or is_granted('ROLE_ADMIN') %}
+            <div class="col-8 row border comment builder p-2">
+                {% else %}
+                <div class="col-8 row border-bottom comment p-2">
+            {% endif %}
+                <div class="col-3 row justify-content-center align-items-center author">
+                    <div class="col-12 username text-center" style="color:{{ comment.author.wowClass ? comment.author.wowClass.color : 'black' }}">{{ comment.author.username }}</div>
+                    <img class="build-index-img" src="{{ comment.author.wowClass ? asset('build/images/img/' ~ comment.author.wowClass.img ) : '' }}" alt="{{ comment.author.username }}">
+                </div>
+                <div class="col row">
+                    <div class="text-left col-12 row justify-content-between"><i>Ecrit le {{ comment.creationDate | date('d-m-Y à H:i') }}</i>
+                        {% if comment.author is same as(app.user) %}
+                            <form method="post" id="delete_comment" action="{{ path('app_comment_delete', {'id': comment.id}) }}" onsubmit="return confirm('Vous êtes sure de vouloir supprimer ce build?');">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+                                <a class="comment_del" href="javascript:{}" onclick="if (confirm('Vous êtes sure de vouloir supprimer ce build?')) {document.getElementById('delete_comment').submit();}"></a>
+                            </form>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 text-left">{{ comment.content | bbCode | raw }}</div>
+                </div>
+            </div>
+        {% else %}
+        {% endfor %}
+
+        {% if is_granted("ROLE_USER") %}
+        <div class="col-12 justify-content-center row mt-2">
+            <h3>Poster un commentaire</h3>
+            <div class="row col-12 justify-content-center">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <div class="col-12 row justify-content-center align-items-center align-content-center">
+                    <button type="submit" class="col-auto btn btn-primary m-2">Envoyer</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+
+
+{% endblock %}
+
+    {% block javascripts %}
+        <script>
+            CKEDITOR.replace('comment[content]');
+        </script>
+    {% endblock %}

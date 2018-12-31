@@ -1,0 +1,42 @@
+<nav class="col-auto navbar navbar-expand-lg navbar-light bg-light rounded">
+    <a class="navbar-brand" href="#">Build finder</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_default_index') }}">Accueil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_build_index') }}">Liste des builds</a>
+            </li>
+            {% if is_granted("ROLE_USER") %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_build_new') }}">Créer un nouveau build</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_user_new') }}">Créer un utilisateur</a>
+                </li>
+            {% endif %}
+
+            {% if is_granted("ROLE_ADMIN") %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_wowclass_index') }}">Classes wow</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_user_index') }}">Utilisateurs</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+

@@ -1,0 +1,40 @@
+.build-list{
+    min-height:50px;
+    background-color: #152735;
+}
+
+.build-list:hover {
+    text-decoration: none;
+    text-underline: none;
+    background-color: #2C3D4B;
+}
+
+.build-list-img {
+    height: 50px;
+    width: 50px;
+}
+
+.build-list-title {
+    font-size: large;
+    font-weight: bold;
+}
+
+.icon::before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+.build-list-votePos::after {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f164";
+    color: green;
+    padding: 5px;
+}
+
+.build-list-voteNeg::after {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f165";
+    color: red;
+    padding: 5px;
+}

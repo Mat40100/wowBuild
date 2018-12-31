@@ -1,0 +1,20 @@
+{% for build in builds %}
+    <a href="{{ path('app_build_show', { 'id': build.id }) }}"
+       class="build-list col-12 row mb-1"
+       style="color : {{ build.wowClass.color }};"
+    >
+        <img class="build-list-img" src="{{ build.wowClass ? asset('build/images/img/' ~ build.wowClass.img ) : '' }}" alt="{{ build.title }}">
+        <div class="col row justify-content-between align-items-center align-content-center flex-nowrap">
+            <div class="col-3">
+                <div class="build-list-title text-nowrap">{{ build.title | cut(20) }}</div>
+            </div>
+            <div class="col-auto">
+                {{ build.lastModificationDate is not null ? build.lastModificationDate|date('d/m/Y H:i') : build.creationDate | date('d-m-Y H:i') }}
+            </div>
+            <div class="col-auto row">
+                <div class="build-list-votePos icon m-1 pl-1">{{ build.countPos }}</div>
+                <div class="build-list-voteNeg icon m-1 pl-1">{{ build.countNeg }}</div>
+            </div>
+        </div>
+    </a>
+{% endfor %}

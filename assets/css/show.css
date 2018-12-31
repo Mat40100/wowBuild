@@ -1,0 +1,81 @@
+.build {
+    color:white;
+}
+
+.build > .title {
+    height:auto;
+    color:white;
+    font-weight: bold;
+    font-size: xx-large;
+
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.build .votePos::before {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f164";
+    font-size: xx-large;
+    margin-right: 15px ;
+    color: green;
+}
+
+.build .voteNeg::before {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f165";
+    font-size: xx-large;
+    margin-right: 15px ;
+    color: #ff0000;
+}
+
+.build .voteNeg:hover, .build .votePos:hover {
+    text-decoration: none;
+    text-underline: none;
+}
+
+.build .edit::before {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f044";
+    font-size: large;
+    margin-right: 15px ;
+    color: dodgerblue;
+}
+
+.build .author > .username {
+    font-weight: bold;
+    font-size: large;
+}
+
+.build .author {
+    height: 150px;
+}
+
+.comment .author > .username {
+    font-size: large;
+    font-weight: bold;
+}
+
+.author > .img {
+    height: 100px;
+    width: 100px;
+}
+
+.builder {
+    background-color: #64403E;
+}
+
+.comments {
+    color:white;
+}
+
+.comment .edit::before {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f044";
+    font-size: large;
+    margin-right: 15px ;
+    color: dodgerblue;
+}
+
+.comment .comment_del::before {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f2ed";
+    font-size: large;
+    margin-right: 15px ;
+    color: dodgerblue;
+}

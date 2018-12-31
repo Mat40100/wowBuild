@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WowClass index{% endblock %}
+
+{% block body %}
+    <h1 class="text-white">WowClass index</h1>
+
+    <table class="table text-white">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Img</th>
+                <th>Name</th>
+                <th>Color</th>
+                <th>Font's Color</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for wow_class in wow_classes %}
+            <tr>
+                <td>{{ wow_class.id }}</td>
+                <td>{{ wow_class.img }}</td>
+                <td>{{ wow_class.name }}</td>
+                <td>{{ wow_class.color }}</td>
+                <td>{{ wow_class.fontColor }}</td>
+                <td>
+                    <a href="{{ path('app_wowclass_show', {'id': wow_class.id}) }}">show</a>
+                    <a href="{{ path('app_wowclass_edit', {'id': wow_class.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_wowclass_new') }}">Create new</a>
+{% endblock %}

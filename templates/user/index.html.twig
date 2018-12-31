@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+    <h1 class="text-white">Liste utilisateurs</h1>
+
+    <table class="table text-white">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th>Etat</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.isActive }}</td>
+                <td>
+                    <a href="{{ path('app_user_show', {'id': user.id}) }}">Voir</a>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
+                    {% if user.isActive %}
+                        <a href="{{ path('app_user_inactivate', {'id': user.id}) }}">Désactiver</a>
+                    {% else %}
+                        <a href="{{ path('app_user_activate', {'id': user.id}) }}">Activer</a>
+                    {% endif %}
+                    <a href="{{ path('app_user_delete', {'id': user.id}) }}">Supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_new') }}">Créer un nouvel utilisateur</a>
+    <a href="{{ path('app_build_index') }}">Retour sur l'application</a>
+
+{% endblock %}

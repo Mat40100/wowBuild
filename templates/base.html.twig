@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+
+        {{ encore_entry_link_tags('app') }}
+        {% block stylesheets %}
+        {% endblock %}
+
+    </head>
+    <body class="container-fluid p-0 m-0 row justify-content-center text-white">
+        {{ include('menu.html.twig') }}
+
+
+        <div class="body-content row col-12 justify-content-around">
+            <div class="col-12 row justify-content-center align-content-center align-items-center m-2">
+                {{ include('flashBag.html.twig') }}
+            </div>
+
+            {% block body %}
+            {% endblock %}
+        </div>
+
+        {% block javascripts %}
+        {% endblock %}
+
+        {{ encore_entry_script_tags('app') }}
+    </body>
+</html>

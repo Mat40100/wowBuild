@@ -1,0 +1,25 @@
+@import "~bootstrap/scss/bootstrap";
+
+html {
+  height:100%;
+  background-image: url('../images/background-2.jpg');
+  background-size: cover;
+  background-repeat:repeat-y;
+}
+
+body {
+  background-color: transparent;
+  width: 100%;
+  padding-top: 66.64%;
+}
+
+.navbar {
+  max-height: 75px;
+  position: absolute;
+  top:0;
+}
+
+.body-content {
+  margin-top:75px;
+}
+

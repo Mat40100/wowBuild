@@ -1,0 +1,38 @@
+{% block stylesheets %}
+{% endblock %}
+
+{{ form_start(form, { 'attr': {'class' : 'col-11 d-flex flex-column justify-content-center'}} ) }}
+    <div class="text-white">
+        {{ form_errors(form.username) }}
+        {{ form_errors(form.email) }}
+        {{ form_errors(form.wowClass) }}
+    </div>
+    <div class="col-12 row justify-content-center">
+        {{ form_widget(form.username , {'attr': {'class' : 'col-5 form-control m-2', 'placeholder' : 'Username'}}) }}
+    </div>
+    <div class="col-12 row justify-content-center">
+        {{ form_widget(form.email , {'attr': {'class' : 'col-5 form-control m-2', 'placeholder' : 'Email'}}) }}
+    </div>
+    {% if form.password is defined %}
+        <div class="col-12 row justify-content-center">
+            <div class="col-12 text-white text-center">
+                {{ form_errors(form.password.first) }}
+            </div>
+            {{ form_widget(form.password.first , {'attr': {'class' : 'col-5 form-control m-2', 'placeholder' : 'Mot de passe'}}) }}
+        </div>
+        <div class="col-12 row justify-content-center">
+            {{ form_widget(form.password.second , {'attr': {'class' : 'col-5 form-control m-2', 'placeholder' : 'Répétez le mot de passe'}}) }}
+        </div>
+    {% endif %}
+    <div class="col-12 row justify-content-center align-content-center align-items-center text-white">
+        {{ form_label(form.wowClass) }}
+        {{ form_widget(form.wowClass , {'attr': {'class' : 'col-3 form-control form-control-sm m-2'}}) }}
+    </div>
+
+    <div class="col-12 row justify-content-center">
+        <button type="submit" class="col-auto btn btn-primary">Envoyer</button>
+    </div>
+{{ form_end(form) }}
+
+{% block javascripts %}
+{% endblock %}
