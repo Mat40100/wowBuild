@@ -23,6 +23,7 @@ class BuildSortService
             return strcmp($b->getCountPos() - $b->getCountNeg(), $a->getCountPos() -  $a->getCountNeg());
         });
 
+        $result = [];
         for ($i = 0; $i < count($array) ; $i++) {
             if ($i === $number) { break; }
             $result[$i] = $array[$i];
