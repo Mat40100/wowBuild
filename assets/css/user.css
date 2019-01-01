@@ -1,0 +1,31 @@
+.user-private {
+    color: #56646F;
+    border: 2px solid #56646F;
+    background-color:  #132330;
+}
+
+.user-img {
+    height: 150px;
+    width: 150px;
+}
+
+.user-email::before {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f070";
+    font-size: large;
+    margin-right: 15px ;
+    color: white;
+}
+
+.user-build {
+    background-color: #172A3A;
+}
+
+.user-build:hover {
+    text-decoration: none;
+    text-underline: none;
+    background-color: #56646F;
+}
+
+.disabled {
+    background-color: #808A93!important; ;
+}
