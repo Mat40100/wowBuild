@@ -10,6 +10,11 @@
     width: 50px;
 }
 
+.selected {
+    background-color: #2C3D4B;
+    border-radius: 5px;
+}
+
 #ajax-loading {
     left: 50%;
     top: 50%;

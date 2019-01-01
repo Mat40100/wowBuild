@@ -4,11 +4,16 @@
 
         {{ form_start(form, { 'attr': {'class' : 'col-11 d-flex flex-column justify-content-center'}} ) }}
         <div class="col-12 row justify-content-center">
+            {{ form_errors(form.title) }}
             {{ form_widget(form.title , {'attr': {'class' : 'col-5 form-control m-2', 'placeholder' : 'Titre'}}) }}
         </div>
-        {{ form_widget(form.content) }}
+        <div class="col-12 row justify-content-center">
+            <div class="col-12">{{ form_errors(form.content) }}</div>
+            <div class="col-12">{{ form_widget(form.content) }}</div>
+        </div>
         <div class="col-12 row justify-content-center align-content-center align-items-center">
             {{ form_label(form.wowClass) }}
+            {{ form_errors(form.wowClass) }}
             {{ form_widget(form.wowClass , {'attr': {'class' : 'col-3 form-control form-control-sm m-2'}}) }}
         </div>
         <div class="col-12 row justify-content-center">

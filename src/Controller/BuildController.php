@@ -10,6 +10,7 @@ use App\Repository\BuildRepository;
 use App\Service\CheckRightService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -97,8 +98,8 @@ class BuildController extends AbstractController
 
         $form = $this->createForm(BuildType::class, $build);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'La modification a été prise en compte.');
 

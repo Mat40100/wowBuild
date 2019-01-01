@@ -31,7 +31,7 @@ class Build
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="Vous ne pouvez pas poster un build sans contenu.")
+     * @Assert\NotBlank(message="Vous ne pouvez pas poster un build vide.")
      */
     private $content;
 
@@ -112,7 +112,7 @@ class Build
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    public function setContent(?string $content): self
     {
         $this->content = $content;
 

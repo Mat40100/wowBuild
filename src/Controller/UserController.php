@@ -55,13 +55,7 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
-        if ($user === $this->getUser() || $this->isGranted('ROLE_ADMIN')) {
-            return $this->render('user/show.html.twig', ['user' => $user]);
-        }
-
-        $this->addFlash('danger', 'Vous n\'avez pas les droits.');
-
-        return $this->redirectToRoute('app_default_index');
+        return $this->render('user/show.html.twig', ['user' => $user]);
     }
 
     /**

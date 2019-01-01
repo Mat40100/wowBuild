@@ -18,7 +18,7 @@
         </div>
         <div class="col-12 row p-0 m-2 justify-content-between">
             <div class="col-2 author row justify-content-center align-items-center align-content-center">
-                <div class="col-12 username text-center" style="color:{{ build.author.wowClass.color }}"> {{ build.author.username }}</div>
+                <a href="{{ path('app_user_show', {'id' : build.author.id }) }}" class="col-12 username text-center" style="color:{{ build.author.wowClass.color }}"> {{ build.author.username }}</a>
                 <img class="img" src="{{ build.author.wowClass ? asset('build/images/img/' ~ build.author.wowClass.img ) : '' }}" alt="{{ build.author.username }}">
             </div>
             <div class="col">
@@ -45,8 +45,8 @@
                 <div class="col-8 row border-bottom comment p-2">
             {% endif %}
                 <div class="col-3 row justify-content-center align-items-center author">
-                    <div class="col-12 username text-center" style="color:{{ comment.author.wowClass ? comment.author.wowClass.color : 'black' }}">{{ comment.author.username }}</div>
-                    <img class="build-index-img" src="{{ comment.author.wowClass ? asset('build/images/img/' ~ comment.author.wowClass.img ) : '' }}" alt="{{ comment.author.username }}">
+                    <a class="col-12 username text-center" href="{{ path('app_user_show', {'id' : comment.author.id }) }}" style="color:{{ comment.author.wowClass ? comment.author.wowClass.color : 'black' }}">{{ comment.author.username }}</a>
+                    <img class="img" src="{{ comment.author.wowClass ? asset('build/images/img/' ~ comment.author.wowClass.img ) : '' }}" alt="{{ comment.author.username }}">
                 </div>
                 <div class="col row">
                     <div class="text-left col-12 row justify-content-between"><i>Ecrit le {{ comment.creationDate | date('d-m-Y à H:i') }}</i>
