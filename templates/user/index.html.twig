@@ -34,7 +34,7 @@
                     {% else %}
                         <a href="{{ path('app_user_activate', {'id': user.id}) }}">Activer</a>
                     {% endif %}
-                    <a href="{{ path('app_user_delete', {'id': user.id}) }}">Supprimer</a>
+                    {{ include('user/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}

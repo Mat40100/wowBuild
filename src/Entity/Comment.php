@@ -35,13 +35,13 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $author;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Build", inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $build;
 
@@ -88,6 +88,17 @@ class Comment
 
     public function getAuthor(): ?User
     {
+        if ($this->author === null ) {
+            $default = new User();
+            $wowClass = new WowClass();
+            $wowClass->setColor('white');
+            $wowClass->setImg('default.png');
+            $default->setUsername('Default');
+            $default->setWowClass($wowClass);
+
+            return $default;
+        }
+
         return $this->author;
     }
 

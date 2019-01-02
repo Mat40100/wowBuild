@@ -43,12 +43,12 @@ class Build
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="builds")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="build")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="build", cascade={"persist"})
      */
     private $comments;
 
@@ -71,11 +71,17 @@ class Build
      */
     private $wowClass;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favorites")
+     */
+    private $followers;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->isActive = true;
+        $this->followers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,6 +139,16 @@ class Build
 
     public function getAuthor(): ?User
     {
+        if ($this->author === null ) {
+            $default = new User();
+            $wowClass = new WowClass();
+            $wowClass->setColor('white');
+            $wowClass->setImg('default.png');
+            $default->setUsername('Default');
+            $default->setWowClass($wowClass);
+
+            return $default;
+        }
         return $this->author;
     }
 
@@ -260,6 +276,34 @@ class Build
     public function setWowClass(?WowClass $wowClass): self
     {
         $this->wowClass = $wowClass;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
+    }
+
+    public function addFollower(User $follower): self
+    {
+        if (!$this->followers->contains($follower)) {
+            $this->followers[] = $follower;
+            $follower->addFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollower(User $follower): self
+    {
+        if ($this->followers->contains($follower)) {
+            $this->followers->removeElement($follower);
+            $follower->removeFavorite($this);
+        }
 
         return $this;
     }

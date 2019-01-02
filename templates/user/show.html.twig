@@ -18,15 +18,32 @@
             {% endif %}
         </div>
 
-        <div class="col-auto row user-private text-center">
-            <h4 class="col-12">Builds</h4>
-            <div class="col">
+        <div class="col-12 row  text-center m-2 p-1 justify-content-center">
+            <h4 class="col-12">Vos créations</h4>
+            <div class="col-auto user-private">
                 {% for build in user.builds %}
                     {% if build.isActive %}
                         <a class="col-12 user-build" style="color:{{ build.wowClass.color }}" href="{{ path('app_build_show', {'id' : build.id}) }}">{{ build.title | cut(20) }}</a>
                     {% else %}
                         <a class="col-12 user-build disabled" style="color:{{ build.wowClass.color }}" href="#">{{ build.title | cut(20) }}</a>
+                        <div class="tooltiptext">Ce build est désactivé par son rédacteur ! :( </div>
                     {% endif %}
+                {% else %}
+                    <p>Aucun build n'a été rédigé</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-12 row text-center m-2 p-1 justify-content-center">
+            <h4 class="col-12">Builds que vous suivez</h4>
+            <div class="col-auto user-private">
+                {% for build in user.favorites %}
+                    {% if build.isActive %}
+                        <a class="col-12 user-build" style="color:{{ build.wowClass.color }}" href="{{ path('app_build_show', {'id' : build.id}) }}">{{ build.title | cut(20) }}</a>
+                    {% else %}
+                        <a class="col-12 user-build disabled" style="color:{{ build.wowClass.color }}" href="#">{{ build.title | cut(20) }}</a>
+                    {% endif %}
+                {% else %}
+                    <p>Vous ne suivez aucun builds :( !</p>
                 {% endfor %}
             </div>
         </div>
@@ -44,6 +61,4 @@
             {{ include('user/_delete_form.html.twig') }}
         {% endif %}
     </div>
-
-
 {% endblock %}

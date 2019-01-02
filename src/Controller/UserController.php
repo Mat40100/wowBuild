@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Build;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\FollowService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,12 +52,22 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"GET"})
+     * @Route("/{id}", methods={"GET"}, requirements={"id" = "^[1-9]\d*$"})
      * @IsGranted("ROLE_USER")
      */
     public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', ['user' => $user]);
+    }
+
+    /**
+     * @Route("/{id}", methods={"GET"}, requirements={"id" = "^0$"})
+     */
+    public function showDefault() :Response
+    {
+        $this->addFlash('warning','L\'utilisateur demandé est un utilisateur virtuel, il remplace les utilisateurs supprimés.');
+
+        return $this->redirectToRoute('app_build_index');
     }
 
     /**
@@ -87,7 +99,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"DELETE"})
+     * @Route("/{id}/delete")
      * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, User $user): Response
@@ -96,6 +108,8 @@ class UserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
+
+            $this->addFlash('success','L\'utilisateur a bien été supprimé.');
         }
 
         return $this->redirectToRoute('app_user_index');
@@ -111,7 +125,7 @@ class UserController extends AbstractController
             $user->setIsActive(false);
             $this->getDoctrine()->getManager()->flush();
         }
-        $this->addFlash('success','Le compte a bien été désactiver');
+        $this->addFlash('success','Le compte a bien été désactivé.');
 
         return $this->redirectToRoute('app_default_index');
     }
@@ -126,10 +140,21 @@ class UserController extends AbstractController
             $user->setIsActive(true);
             $this->getDoctrine()->getManager()->flush();
         }
-        $this->addFlash('success','Le compte a bien été activer');
+        $this->addFlash('success','Le compte a bien été activé.');
 
         if ($this->isGranted("ROLE_ADMIN")) return $this->redirectToRoute('app_user_index');
 
         return $this->redirectToRoute('app_default_index');
+    }
+
+    /**
+     * @Route("/follow/{id}")
+     * @IsGranted("ROLE_USER")
+     */
+    public function follow(Build $build, FollowService $followService)
+    {
+        $followService->follow($build, $this->getUser()) ? $this->addFlash('success','Vous ne suivez plus ce build :( ') : $this->addFlash('success','Vous suivez ce build ! :) ');
+
+        return $this->redirectToRoute('app_build_show', ['id' => $build->getId()]);
     }
 }

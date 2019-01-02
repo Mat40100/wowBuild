@@ -71,16 +71,23 @@ class User implements UserInterface
      */
     private $isActive;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Build", inversedBy="followers")
+     */
+    private $favorites;
+
     public function __construct()
     {
         $this->builds = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->isActive = true;
+        $this->favorites = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
+        if ($this->id === null ) return '0';
         return $this->id;
     }
 
@@ -277,6 +284,32 @@ class User implements UserInterface
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Build[]
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Build $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Build $favorite): self
+    {
+        if ($this->favorites->contains($favorite)) {
+            $this->favorites->removeElement($favorite);
+        }
 
         return $this;
     }

@@ -8,6 +8,7 @@ use App\Form\BuildType;
 use App\Form\CommentType;
 use App\Repository\BuildRepository;
 use App\Service\CheckRightService;
+use App\Service\FollowService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -57,11 +58,12 @@ class BuildController extends AbstractController
     /**
      * @Route("/{id}", methods={"GET","POST"})
      */
-    public function show(Build $build, Request $request): Response
+    public function show(Build $build, Request $request, FollowService $followService): Response
     {
         if (!$build->getIsActive()) {
             throw new NotFoundHttpException();
         }
+        $this->isGranted("ROLE_USER") ? $follow = $followService->checkFollow($build, $this->getUser()) : $follow = false;
 
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -80,7 +82,8 @@ class BuildController extends AbstractController
 
         return $this->render('build/show.html.twig', [
             'build' => $build,
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'follow' => $follow
         ]);
     }
 
