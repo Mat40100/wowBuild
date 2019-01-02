@@ -81,6 +81,7 @@ class User implements UserInterface
 
     public function getId(): ?int
     {
+        if ($this->id === null ) return '0';
         return $this->id;
     }
 

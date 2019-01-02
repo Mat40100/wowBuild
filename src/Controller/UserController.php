@@ -50,12 +50,23 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"GET"})
+     * @Route("/{id}", methods={"GET"}, requirements={"id" = "^[1-9]\d*$"})
      * @IsGranted("ROLE_USER")
      */
     public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', ['user' => $user]);
+    }
+
+    /**
+     * @Route("/{id}", methods={"GET"}, requirements={"id" = "^0$"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function showDefault() :Response
+    {
+        $this->addFlash('warning','L\'utilisateur demandé est un utilisateur virtuel, il remplace les utilisateurs supprimés.');
+
+        return $this->redirectToRoute('app_build_index');
     }
 
     /**
@@ -97,7 +108,7 @@ class UserController extends AbstractController
             $entityManager->remove($user);
             $entityManager->flush();
 
-            $this->addFlash('success','L\'utilisateur a bien té supprimé.');
+            $this->addFlash('success','L\'utilisateur a bien été supprimé.');
         }
 
         return $this->redirectToRoute('app_user_index');
@@ -113,7 +124,7 @@ class UserController extends AbstractController
             $user->setIsActive(false);
             $this->getDoctrine()->getManager()->flush();
         }
-        $this->addFlash('success','Le compte a bien été désactiver');
+        $this->addFlash('success','Le compte a bien été désactivé.');
 
         return $this->redirectToRoute('app_default_index');
     }
@@ -128,7 +139,7 @@ class UserController extends AbstractController
             $user->setIsActive(true);
             $this->getDoctrine()->getManager()->flush();
         }
-        $this->addFlash('success','Le compte a bien été activer');
+        $this->addFlash('success','Le compte a bien été activé.');
 
         if ($this->isGranted("ROLE_ADMIN")) return $this->redirectToRoute('app_user_index');
 

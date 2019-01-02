@@ -18,7 +18,7 @@
         </div>
         <div class="col-12 row p-0 m-2 justify-content-between">
             <div class="col-2 author row justify-content-center align-items-center align-content-center">
-                <a href="{{ path('app_user_show', {'id' : build.author.id }) }}" class="col-12 username text-center" style="color:{{ build.author.wowClass.color }}"> {{ build.author.username }}</a>
+                <a href="{{ build.author.id == 0 ? path('app_user_showdefault', {"id" : 0}) : path('app_user_show', {'id' : build.author.id }) }}" class="col-12 username text-center" style="color:{{ build.author.wowClass.color }}"> {{ build.author.username }}</a>
                 <img class="img" src="{{ build.author.wowClass ? asset('build/images/img/' ~ build.author.wowClass.img ) : '' }}" alt="{{ build.author.username }}">
             </div>
             <div class="col">
@@ -39,13 +39,15 @@
         <h3 class="col-12 text-center mb-2">Commentaires</h3>
         <div class="col-8 border-bottom"></div>
         {% for comment in build.comments %}
-            {% if comment.author is same as(build.author) or is_granted('ROLE_ADMIN') %}
-            <div class="col-8 row border comment builder p-2">
+            {% if comment.author is same as(build.author) %}
+            <div class="col-8 row border comment p-2">
                 {% else %}
                 <div class="col-8 row border-bottom comment p-2">
             {% endif %}
                 <div class="col-3 row justify-content-center align-items-center author">
-                    <a class="col-12 username text-center" href="{{ path('app_user_show', {'id' : comment.author.id }) }}" style="color:{{ comment.author.wowClass ? comment.author.wowClass.color : 'black' }}">{{ comment.author.username }}</a>
+                    <a class="col-12 username text-center" href="
+                    {{  comment.author.id == 0 ? path('app_user_showdefault', {"id" : 0}) :path('app_user_show', {'id' : comment.author.id }) }}"
+                    style="color:{{ comment.author.wowClass ? comment.author.wowClass.color : 'black' }}">{{ comment.author.username }}</a>
                     <img class="img" src="{{ comment.author.wowClass ? asset('build/images/img/' ~ comment.author.wowClass.img ) : '' }}" alt="{{ comment.author.username }}">
                 </div>
                 <div class="col row">

@@ -43,12 +43,12 @@ class Build
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="builds")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="build")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="build", cascade={"persist"})
      */
     private $comments;
 
@@ -133,6 +133,16 @@ class Build
 
     public function getAuthor(): ?User
     {
+        if ($this->author === null ) {
+            $default = new User();
+            $wowClass = new WowClass();
+            $wowClass->setColor('white');
+            $wowClass->setImg('default.png');
+            $default->setUsername('Default');
+            $default->setWowClass($wowClass);
+
+            return $default;
+        }
         return $this->author;
     }
 
