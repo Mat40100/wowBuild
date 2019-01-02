@@ -1,0 +1,5 @@
+<form method="post" id="delete_comment" action="{{ path('app_comment_delete', {'id': comment.id}) }}" onsubmit="return confirm('Vous êtes sure de vouloir supprimer votre commentaire??');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+    <a class="comment_del" href="javascript:{}" onclick="if (confirm('Vous êtes sure de vouloir supprimer ce build?')) {document.getElementById('delete_comment').submit();}"></a>
+</form>

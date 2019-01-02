@@ -12,9 +12,20 @@
 {% block body %}
     <div class="build col-12">
         <div class="row col-12 title text-center">
-            <h1 class="col-12">{{ build.title }}</h1>
+            <div class="col-12 row justify-content-center">
+                <h1 class="pr-3">{{ build.title }}</h1>
+                <a href="{{ path('app_user_follow', {'id' : build.id }) }}">
+                    {% if follow == true %}
+                        <div class="follow"></div>
+                    {% else %}
+                        <div class="not-follow"></div>
+                    {% endif %}
+                </a>
+            </div>
+
             <a href="{{ path('app_vote_add', {'id': build.id , 'value': '1' }) }}" class="votePos icon m-1 pl-1">{{ build.countPos }}</a>
             <a href="{{ path('app_vote_add', {'id': build.id, 'value': '0' }) }}" class="voteNeg icon m-1 pl-1">{{ build.countNeg }}</a>
+
         </div>
         <div class="col-12 row p-0 m-2 justify-content-between">
             <div class="col-2 author row justify-content-center align-items-center align-content-center">
@@ -53,11 +64,7 @@
                 <div class="col row">
                     <div class="text-left col-12 row justify-content-between"><i>Ecrit le {{ comment.creationDate | date('d-m-Y à H:i') }}</i>
                         {% if comment.author is same as(app.user) %}
-                            <form method="post" id="delete_comment" action="{{ path('app_comment_delete', {'id': comment.id}) }}" onsubmit="return confirm('Vous êtes sure de vouloir supprimer ce build?');">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
-                                <a class="comment_del" href="javascript:{}" onclick="if (confirm('Vous êtes sure de vouloir supprimer ce build?')) {document.getElementById('delete_comment').submit();}"></a>
-                            </form>
+                            {{ include('build/_delete_comment_form.html.twig') }}
                         {% endif %}
                     </div>
                     <div class="col-12 text-left">{{ comment.content | bbCode | raw }}</div>

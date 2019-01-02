@@ -71,11 +71,17 @@ class Build
      */
     private $wowClass;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favorites")
+     */
+    private $followers;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->isActive = true;
+        $this->followers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -270,6 +276,34 @@ class Build
     public function setWowClass(?WowClass $wowClass): self
     {
         $this->wowClass = $wowClass;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
+    }
+
+    public function addFollower(User $follower): self
+    {
+        if (!$this->followers->contains($follower)) {
+            $this->followers[] = $follower;
+            $follower->addFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollower(User $follower): self
+    {
+        if ($this->followers->contains($follower)) {
+            $this->followers->removeElement($follower);
+            $follower->removeFavorite($this);
+        }
 
         return $this;
     }

@@ -79,3 +79,17 @@
     margin-right: 15px ;
     color: dodgerblue;
 }
+
+.follow::after {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f004";
+    font-size: large;
+    margin-right: 15px ;
+    color: green;
+}
+
+.not-follow::after {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f7a9";
+    font-size: large;
+    margin-right: 15px ;
+    color: red;
+}

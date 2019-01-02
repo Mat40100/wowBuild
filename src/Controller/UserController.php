@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Build;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\FollowService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,7 +62,6 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}", methods={"GET"}, requirements={"id" = "^0$"})
-     * @IsGranted("ROLE_USER")
      */
     public function showDefault() :Response
     {
@@ -144,5 +145,16 @@ class UserController extends AbstractController
         if ($this->isGranted("ROLE_ADMIN")) return $this->redirectToRoute('app_user_index');
 
         return $this->redirectToRoute('app_default_index');
+    }
+
+    /**
+     * @Route("/follow/{id}")
+     * @IsGranted("ROLE_USER")
+     */
+    public function follow(Build $build, FollowService $followService)
+    {
+        $followService->follow($build, $this->getUser()) ? $this->addFlash('success','Vous ne suivez plus ce build :( ') : $this->addFlash('success','Vous suivez ce build ! :) ');
+
+        return $this->redirectToRoute('app_build_show', ['id' => $build->getId()]);
     }
 }
