@@ -76,6 +76,11 @@ class User implements UserInterface
      */
     private $favorites;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resetPasswordToken;
+
     public function __construct()
     {
         $this->builds = new ArrayCollection();
@@ -310,6 +315,18 @@ class User implements UserInterface
         if ($this->favorites->contains($favorite)) {
             $this->favorites->removeElement($favorite);
         }
+
+        return $this;
+    }
+
+    public function getResetPasswordToken(): ?string
+    {
+        return $this->resetPasswordToken;
+    }
+
+    public function setResetPasswordToken(?string $resetPasswordToken): self
+    {
+        $this->resetPasswordToken = $resetPasswordToken;
 
         return $this;
     }
