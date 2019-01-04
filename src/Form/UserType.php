@@ -22,7 +22,7 @@ class UserType extends AbstractType
                 'label' => 'Nom d\'utilisateur'
             ])
             ->add('email', EmailType::class)
-            ->add('password', RepeatedType::class, [
+            ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent être les mêmes.',
                 'options' => array('attr' => array('class' => 'password-field')),

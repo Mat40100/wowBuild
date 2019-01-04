@@ -18,13 +18,13 @@ class Vote
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Build", inversedBy="votes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $build;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="votes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $author;
 
