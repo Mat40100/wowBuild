@@ -32,6 +32,10 @@ class Doctrine
         $entity = $args->getObject();
 
         if ($entity instanceof User) {
+            if (!null === $entity->getPlainPassword()) {
+                $password = $this->passwordEncoder->encodePassword($entity, $entity->getPlainPassword());
+                $entity->setPassword($password);
+            }
         }
 
         if ($entity instanceof Build || $entity instanceof Comment) {
@@ -46,7 +50,7 @@ class Doctrine
         $entity = $args->getObject();
 
         if ($entity instanceof User) {
-            $password = $this->passwordEncoder->encodePassword($entity, $entity->getPassword());
+            $password = $this->passwordEncoder->encodePassword($entity, $entity->getPlainPassword());
             $entity->setPassword($password);
         }
 
