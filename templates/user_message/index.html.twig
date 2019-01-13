@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('messenger') }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="col-12 row justify-content-center align-items-center">
+        <div class="col-8 row justify-content-center align-items-center messenger">
+            <div class="col-12 row justify-content-start">
+                <div id="received" class="mess-onglet">Boîte de réception</div>
+                <div id="sent" class="mess-onglet">Boîte d'envoi</div>
+                <a href="#" class="mess-onglet">Nouveau message</a>
+            </div>
+            <div id="mess-box" class="col-12 row">
+                {{ include('user_message/messageList.twig') }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('messenger') }}
+{% endblock %}

@@ -1,11 +1,12 @@
-<div class="col-12 row justify-content-center align-items-center">
-    {% if message.isRead is same as(true) %}
-        <a href="{{ path('app_usermessage_show', {'id':message.id}) }}" class="col row message read justify-content-between m-1">
-        {% else %}
-        <a href="{{ path('app_usermessage_show', {'id':message.id}) }}" class="col row message justify-content-between m-1">
-            {% endif %}
+<div id="ajax-loading"></div>
+{% for message in messages %}
+    <div class="col-12 row message justify-content-center align-items-center">
+        <a href="{{ path('app_usermessage_show', {'id':message.id}) }}" class="col row justify-content-between m-1">
             <div class="col-auto">{{ message.messageFrom.username }} - {{ message.creationDate | date('d-m-Y h:i:s')}}</div>
             <div class="col-auto text-center">{{ message.content | cut }}</div>
         </a>
         <a class="col-auto btn btn-outline-danger" href="{{ path('app_usermessage_hide', {'id':message.id}) }}">Supprimer</a>
-</div>
+    </div>
+{% else %}
+    <div class="col-12 text-center">Vous n'avez pas de messages</div>
+{% endfor %}

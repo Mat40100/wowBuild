@@ -8,3 +8,27 @@
     text-underline: none;
     background-color: #2C3D4B;
 }
+
+.messenger {
+    background-color: #172A3A;
+    border: 3px solid #2C3D4B;
+    color: white;
+    height:fit-content;
+}
+
+
+.mess-onglet:hover{
+    text-decoration: none;
+    text-underline: none;
+    color: #2C3D4B;
+
+    background-color: #808A93;
+}
+
+.mess-onglet {
+    background-color: #2C3D4B;
+    color: white;
+
+    padding: 0.5em;
+    margin: 0.5em;
+}

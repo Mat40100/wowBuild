@@ -8,6 +8,7 @@ use App\Form\MessageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserMessageController extends AbstractController
@@ -33,7 +34,7 @@ class UserMessageController extends AbstractController
 
             $this->addFlash('success', 'Votre message est bien parti!');
 
-            return $this->redirectToRoute('app_usermessage_reception');
+            return $this->redirectToRoute('app_usermessage_index');
         }
 
         return $this->render('user_message/sendMessage.html.twig' , [
@@ -43,35 +44,59 @@ class UserMessageController extends AbstractController
     }
 
     /**
-     * @Route("/messages/received")
+     * @Route("/messages")
      * @IsGranted("ROLE_USER")
      */
-    public function reception()
+    public function index()
     {
         $messages = $this->getDoctrine()->getRepository(UserMessage::class)->findBy([
             'messageTo' => $this->getUser(),
             'receiverVisible' => true //Reflechir aux options de visibiltiés
         ]);
 
-        return $this->render('user_message/Index.html.twig', [
+        return $this->render('user_message/index.html.twig', [
             'messages' => $messages,
+        ]);
+    }
+
+    /**
+     * @Route("/messages/received")
+     * @IsGranted("ROLE_USER")
+     */
+    public function reception(Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
+            $messages = $this->getDoctrine()->getRepository(UserMessage::class)->findBy([
+                'messageTo' => $this->getUser(),
+                'receiverVisible' => true //Reflechir aux options de visibiltiés
             ]);
+
+            return $this->render('user_message/messageList.twig', [
+                'messages' => $messages,
+            ]);
+        }
+
+        throw new NotFoundHttpException();
     }
 
     /**
      * @Route("/messages/sent")
      * @IsGranted("ROLE_USER")
      */
-    public function sent()
+    public function sent(Request $request)
     {
-        $messages = $this->getDoctrine()->getRepository(UserMessage::class)->findBy([
-            'messageFrom' => $this->getUser(),
-            'writerVisible' => true //Reflechir aux options de visibiltiés
-        ]);
+        if ($request->isXmlHttpRequest()) {
+            $messages = $this->getDoctrine()->getRepository(UserMessage::class)->findBy([
+                'messageFrom' => $this->getUser(),
+                'writerVisible' => true //Reflechir aux options de visibiltiés
+            ]);
 
-        return $this->render('user_message/Index.html.twig', [
-            'messages' => $messages,
-        ]);
+            return $this->render('user_message/messageList.twig', [
+                'messages' => $messages,
+            ]);
+        }
+
+        throw new NotFoundHttpException();
     }
 
     /**
@@ -82,13 +107,13 @@ class UserMessageController extends AbstractController
         if ($message->getMessageFrom() !== $this->getUser() && $message->getMessageTo() !== $this->getUser()) {
             $this->addFlash('warning', 'Ce message ne vous appartient pas.');
 
-            return $this->redirectToRoute('app_usermessage_reception');
+            return $this->redirectToRoute('app_usermessage_index');
         }
 
         if (($message->getMessageTo()=== $this->getUser() && $message->getReceiverVisible() === false) || ($message->getMessageFrom() === $this->getUser() && $message->getWriterVisible() === false)) {
             $this->addFlash('warning', 'Ce message n\'est plus disponible');
 
-            return $this->redirectToRoute('app_usermessage_reception');
+            return $this->redirectToRoute('app_usermessage_index');
         }
 
         if ($this->getUser() === $message->getMessageTo()) {
@@ -110,7 +135,7 @@ class UserMessageController extends AbstractController
         if ($message->getMessageFrom() !== $this->getUser() && $message->getMessageTo() !== $this->getUser()) {
             $this->addFlash('warning', 'Ce message ne vous appartient pas.');
 
-            return $this->redirectToRoute('app_usermessage_reception');
+            return $this->redirectToRoute('app_usermessage_index');
         }
 
         if ($message->getMessageFrom() === $this->getUser()) {
@@ -122,6 +147,6 @@ class UserMessageController extends AbstractController
         }
         $this->getDoctrine()->getManager()->flush();
 
-        return $this->redirectToRoute('app_usermessage_reception');
+        return $this->redirectToRoute('app_usermessage_index');
     }
 }

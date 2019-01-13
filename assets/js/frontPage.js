@@ -27,7 +27,7 @@ $(document).ready(function(){
     });
 });
 
-
+require('../css/loading.css');
 require('../css/frontPage.css');
 require('../css/buildList.css');
 
