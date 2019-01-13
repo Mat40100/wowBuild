@@ -15,6 +15,8 @@
 
             {% if app.user is same as(user) %}
                 <p class="col-12 text-center user-email">{{ user.email }}</p>
+                {% else %}
+                <a href="{{ path('app_usermessage_sendmessage', {'id':user.id}) }}">Envoyer un message</a>
             {% endif %}
         </div>
 
@@ -34,7 +36,11 @@
             </div>
         </div>
         <div class="col-12 row text-center m-2 p-1 justify-content-center">
-            <h4 class="col-12">Builds que vous suivez</h4>
+            {% if app.user is same as(user) %}
+                <h4 class="col-12">Builds que vous suivez</h4>
+            {% else %}
+                <h4 class="col-12">Builds suivis</h4>
+            {% endif %}
             <div class="col-auto user-private">
                 {% for build in user.favorites %}
                     {% if build.isActive %}

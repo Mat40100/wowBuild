@@ -87,6 +87,16 @@ class User implements UserInterface
      */
     private $resetPasswordToken;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserMessage", mappedBy="messageFrom", orphanRemoval=true)
+     */
+    private $writtenMessage;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserMessage", mappedBy="messageTo", orphanRemoval=true)
+     */
+    private $receivedMessage;
+
     public function __construct()
     {
         $this->builds = new ArrayCollection();
@@ -94,6 +104,8 @@ class User implements UserInterface
         $this->votes = new ArrayCollection();
         $this->isActive = true;
         $this->favorites = new ArrayCollection();
+        $this->writtenMessage = new ArrayCollection();
+        $this->receivedMessage = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -349,6 +361,68 @@ class User implements UserInterface
     public function setResetPasswordToken(?string $resetPasswordToken): self
     {
         $this->resetPasswordToken = $resetPasswordToken;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserMessage[]
+     */
+    public function getWrittenMessage(): Collection
+    {
+        return $this->writtenMessage;
+    }
+
+    public function addWrittenMessage(UserMessage $writtenMessage): self
+    {
+        if (!$this->writtenMessage->contains($writtenMessage)) {
+            $this->writtenMessage[] = $writtenMessage;
+            $writtenMessage->setMessageFrom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWrittenMessage(UserMessage $writtenMessage): self
+    {
+        if ($this->writtenMessage->contains($writtenMessage)) {
+            $this->writtenMessage->removeElement($writtenMessage);
+            // set the owning side to null (unless already changed)
+            if ($writtenMessage->getMessageFrom() === $this) {
+                $writtenMessage->setMessageFrom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserMessage[]
+     */
+    public function getReceivedMessage(): Collection
+    {
+        return $this->receivedMessage;
+    }
+
+    public function addReceivedMessage(UserMessage $receivedMessage): self
+    {
+        if (!$this->receivedMessage->contains($receivedMessage)) {
+            $this->receivedMessage[] = $receivedMessage;
+            $receivedMessage->setMessageTo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceivedMessage(UserMessage $receivedMessage): self
+    {
+        if ($this->receivedMessage->contains($receivedMessage)) {
+            $this->receivedMessage->removeElement($receivedMessage);
+            // set the owning side to null (unless already changed)
+            if ($receivedMessage->getMessageTo() === $this) {
+                $receivedMessage->setMessageTo(null);
+            }
+        }
 
         return $this;
     }

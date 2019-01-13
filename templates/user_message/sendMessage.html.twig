@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ecrire un message a {{ message.messageTo.username }}{% endblock %}
+
+{% block body %}
+
+    <div class="col-12 row justify-content-center align-items-center">
+        <p>Destinataire: {{ message.messageTo.username }}</p>
+        {{ form_start(form) }}
+            {{ form_widget(form.content, {'attr': {'class' : 'col-auto form-control m-2', 'placeholder' : 'Contenu du message'}}) }}
+            <div class="col-12 row justify-content-center align-items-center m-2">
+                <input type="submit" class="col-auto btn btn-outline-primary" value="Envoyer">
+            </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

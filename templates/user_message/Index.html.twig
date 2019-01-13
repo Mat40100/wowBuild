@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie{% endblock %}
+
+{% block body %}
+
+    <div class="col-12 row justify-content-center align-items-center">
+        <div class="col-8 row justify-content-center align-items-center">
+            <div class="col-12 row justify-content-start">
+                <a href="{{ path('app_usermessage_reception') }}" class="mess-onglets m-1">Boîte de réception</a>
+                <a href="{{ path('app_usermessage_sent') }}" class="mess-onglets m-1">Boîte d'envoi</a>
+            </div>
+            <div class="mess-box col-12 row">
+                {% for message in messages %}
+                    {{ include('user_message/messageList.twig') }}
+                    {% else %}
+                    <div class="col-12 text-center">Vous n'avez pas de messages</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
