@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie{% endblock %}
+
+{% block body %}
+
+    <div class="col-12 row justify-content-center align-items-center">
+        {{ message.messageFrom.username }}
+        {{ message.content }}
+        <a href="{{ path('app_usermessage_send', {'id':message.messageFrom.id}) }}">Répondre</a>
+    </div>
+
+{% endblock %}

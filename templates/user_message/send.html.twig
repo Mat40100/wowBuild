@@ -1,0 +1,17 @@
+<div id="mess-box" class="col-12 row">
+
+    <div id="ajax-loading"></div>
+    <div class="col-12 row justify-content-center align-items-center">
+        {{ form_start(form, {'action': path('app_usermessage_send')}) }}
+            {{ form_widget(form.content, {'attr': {'class' : 'col-auto form-control m-2', 'placeholder' : 'Contenu du message'}}) }}
+
+        {% if form.messageTo is defined %}
+            {{ form_widget(form.messageTo, {'attr': {'class' : 'col-auto form-control m-2', 'placeholder' : 'Destinataire'}}) }}
+        {% endif %}
+
+        <div class="col-12 row justify-content-center align-items-center m-2">
+                <input type="submit" class="col-auto btn btn-outline-primary" value="Envoyer">
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>

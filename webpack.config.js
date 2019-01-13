@@ -22,7 +22,8 @@ Encore
     .addEntry('frontPage','./assets/js/frontPage.js')
     .addEntry('build', './assets/js/build.js')
     .addEntry('login', './assets/css/login.css')
-    .addEntry('user', './assets/css/user.css')
+    .addEntry('user', './assets/js/user.js')
+    .addEntry('messenger', './assets/js/messenger.js')
 
     //.addEntry('page2', './assets/js/page2.js')
 

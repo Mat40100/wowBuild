@@ -12,6 +12,7 @@ namespace App\EventListener;
 use App\Entity\Build;
 use App\Entity\Comment;
 use App\Entity\User;
+use App\Entity\UserMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -38,7 +39,7 @@ class Doctrine
             }
         }
 
-        if ($entity instanceof Build || $entity instanceof Comment) {
+        if ($entity instanceof Build || $entity instanceof Comment || $entity instanceof UserMessage) {
             $entity->setLastModificationDate(new \DateTime());
         }
 
@@ -54,7 +55,7 @@ class Doctrine
             $entity->setPassword($password);
         }
 
-        if ($entity instanceof Build || $entity instanceof Comment) {
+        if ($entity instanceof Build || $entity instanceof Comment || $entity instanceof UserMessage) {
             $entity->setCreationDate(new \DateTime());
         }
 

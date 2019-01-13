@@ -1,23 +1,26 @@
+require('../css/messenger.css');
+require('../css/loading.css');
+
 $(document).ready(function(){
     $('#ajax-loading').hide();
 
 
-    $('.topThreeAssets').click(function () {
-        if($('.topThreeAssets').hasClass('selected')){
-            $('.topThreeAssets').removeClass('selected')
+    $('.mess-onglet').click(function () {
+        if($('.mess-onglet').hasClass('selected')){
+            $('.mess-onglet').removeClass('selected')
         }
         $(this).addClass('selected');
-        $('#bestList').children().hide();
+        $('#mess-box').children().hide();
         $('#ajax-loading').show();
 
-        var id = $(this).attr('name').toString();
+        var target = $(this).attr('id').toString();
 
         $.ajax({
-            url : '/topThree/' + id,
+            url : '/messages/' + target,
             type : 'GET',
             dataType : 'html',
             success : function(code_html, statut){
-                $(code_html).replaceAll('#bestList');
+                $(code_html).replaceAll('#mess-box');
                 $('#ajax-loading').hide();
             },
             error : function(resultat, statut, erreur){
@@ -26,8 +29,4 @@ $(document).ready(function(){
         });
     });
 });
-
-require('../css/loading.css');
-require('../css/frontPage.css');
-require('../css/buildList.css');
 
