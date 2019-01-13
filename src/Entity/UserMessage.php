@@ -62,6 +62,7 @@ class UserMessage
     {
         $this->setReceiverVisible(true);
         $this->setWriterVisible(true);
+        $this->setIsRead(false);
     }
 
     public function getId(): ?int
@@ -155,9 +156,6 @@ class UserMessage
 
     public function getIsRead(): ?bool
     {
-        if ($this->isRead === null ) {
-            $this->isRead = false;
-        }
         return $this->isRead;
     }
 

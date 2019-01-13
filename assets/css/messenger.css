@@ -1,0 +1,10 @@
+.message{
+    min-height:50px;
+    background-color: #152735;
+}
+
+.message:hover {
+    text-decoration: none;
+    text-underline: none;
+    background-color: #2C3D4B;
+}

@@ -17,7 +17,7 @@ class UserMessageController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route("/messageTo/{id}")
      */
-    public function sendMessage(Request $request, User $user)
+    public function send(Request $request, User $user)
     {
         $message = new UserMessage();
         $message->setMessageFrom($this->getUser());
@@ -81,6 +81,12 @@ class UserMessageController extends AbstractController
     public function show(UserMessage $message){
         if ($message->getMessageFrom() !== $this->getUser() && $message->getMessageTo() !== $this->getUser()) {
             $this->addFlash('warning', 'Ce message ne vous appartient pas.');
+
+            return $this->redirectToRoute('app_usermessage_reception');
+        }
+
+        if (($message->getMessageTo()=== $this->getUser() && $message->getReceiverVisible() === false) || ($message->getMessageFrom() === $this->getUser() && $message->getWriterVisible() === false)) {
+            $this->addFlash('warning', 'Ce message n\'est plus disponible');
 
             return $this->redirectToRoute('app_usermessage_reception');
         }

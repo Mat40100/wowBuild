@@ -2,6 +2,10 @@
 
 {% block title %}Messagerie{% endblock %}
 
+{% block stylesheets %}
+    {{ encore_entry_link_tags('messenger') }}
+{% endblock %}
+
 {% block body %}
 
     <div class="col-12 row justify-content-center align-items-center">
@@ -9,6 +13,7 @@
             <div class="col-12 row justify-content-start">
                 <a href="{{ path('app_usermessage_reception') }}" class="mess-onglets m-1">Boîte de réception</a>
                 <a href="{{ path('app_usermessage_sent') }}" class="mess-onglets m-1">Boîte d'envoi</a>
+                <a href="#">Nouveau message</a>
             </div>
             <div class="mess-box col-12 row">
                 {% for message in messages %}

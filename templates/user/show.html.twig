@@ -16,7 +16,7 @@
             {% if app.user is same as(user) %}
                 <p class="col-12 text-center user-email">{{ user.email }}</p>
                 {% else %}
-                <a href="{{ path('app_usermessage_sendmessage', {'id':user.id}) }}">Envoyer un message</a>
+                <a href="{{ path('app_usermessage_send', {'id':user.id}) }}">Envoyer un message</a>
             {% endif %}
         </div>
 
