@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Récupération de mot de passe{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('login') }}
+{% endblock %}
+
+{% block body %}
+    <div class="col-12"></div>
+    <div class="col-12 row justify-content-center align-content-center align-items-center">
+        <form class="col-10 col-md-4 col-lg-2 row p-3 justify-content-center align-items-center align-content-center" method="post">
+            <h1 class="h3 mb-3 font-weight-normal text-center text-white">Récupération</h1>
+
+            {{ form_start(form) }}
+                {% if form.password is defined %}
+                    <div class="col-12 row justify-content-center">
+                        <div class="col-12 text-white text-center">
+                            {{ form_errors(form.password.first) }}
+                        </div>
+                        {{ form_widget(form.password.first , {'attr': {'class' : 'col-12 form-control m-2', 'placeholder' : 'Mot de passe'}}) }}
+                    </div>
+                    <div class="col-12 row justify-content-center">
+                        {{ form_widget(form.password.second , {'attr': {'class' : 'col-12 form-control m-2', 'placeholder' : 'Répétez le mot de passe'}}) }}
+                    </div>
+                {% else %}
+                    <div class="col-12 row justify-content-center">
+                        {{ form_widget(form.email, {'attr': {'class' : 'col-12 form-control m-2', 'placeholder' : 'E-mail'}}) }}
+                    </div>
+                {% endif %}
+            <button class="btn btn-lg btn-primary m-1" type="submit">
+                    Valider
+                </button>
+            {{ form_end(form) }}
+        </form>
+
+        <div class="col-12 row justify-content-center align-content-center align-items-center">
+            <a class="col-auto btn btn-primary m-2" href="{{ path('app_build_index') }}">Retourner sur l'application</a>
+        </div>
+    </div>
+    <div class="col-12"></div>
+
+{% endblock %}
