@@ -16,7 +16,7 @@
             {% if app.user is same as(user) %}
                 <p class="col-12 text-center user-email">{{ user.email }}</p>
                 {% else %}
-                <a href="{{ path('app_usermessage_send', {'id':user.id}) }}">Envoyer un message</a>
+                <div id="send-message" itemid="{{ user.id }}">Envoyer un message</div>
             {% endif %}
         </div>
 
@@ -67,4 +67,11 @@
             {{ include('user/_delete_form.html.twig') }}
         {% endif %}
     </div>
+
+    <div id="messenger-wrapper">
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('user') }}
 {% endblock %}

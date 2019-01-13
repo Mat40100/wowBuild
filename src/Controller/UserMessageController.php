@@ -6,7 +6,9 @@ use App\Entity\User;
 use App\Entity\UserMessage;
 use App\Form\MessageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,17 +18,25 @@ class UserMessageController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route("/messageTo/{id}")
+     * @Route("/messages/send")
      */
-    public function send(Request $request, User $user)
+    public function send(Request $request)
     {
         $message = new UserMessage();
         $message->setMessageFrom($this->getUser());
-        $message->setMessageTo($user);
 
         $form = $this->createForm(MessageType::class, $message);
 
+        if ($request->isXmlHttpRequest()) {
+
+            return $this->render('user_message/send.html.twig', [
+                'form' => $form->createView(),
+                'message' => $message
+            ]);
+        }
+
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($message);
@@ -37,11 +47,51 @@ class UserMessageController extends AbstractController
             return $this->redirectToRoute('app_usermessage_index');
         }
 
-        return $this->render('user_message/sendMessage.html.twig' , [
-            'form' => $form->createView(),
-            'message' => $message
-        ]);
+        return $this->render('user_message/index.html.twig', [
+            'target' => true,
+            'form' => $form->createView()]);
     }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route("/messages/sendTo/{id}")
+     */
+    public function sendTo(Request $request, User $user)
+    {
+        $message = new UserMessage();
+        $message->setMessageFrom($this->getUser());
+        $message->setMessageTo($user);
+
+        $form = $this->createFormBuilder($message)
+            ->setAction($this->generateUrl('app_usermessage_sendto', ['id' => $user->getId()]))
+            ->add('content', TextareaType::class, [
+                'label' => false
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($request->isXmlHttpRequest()) {
+
+            return $this->render('user/sendTo.html.twig', [
+                'form' => $form->createView(),
+                'message' => $message
+            ]);
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($message);
+            $em->flush();
+
+            $this->addFlash('success', 'Votre message est bien parti!');
+
+            return $this->redirectToRoute('app_user_show', ['id' => $user->getId()]);
+        }
+        $this->addFlash('warning', 'Le message n\'est pas remplie correctement');
+
+        return $this->redirectToRoute('app_user_show', ['id' => $user->getId()]);
+    }
+
 
     /**
      * @Route("/messages")
