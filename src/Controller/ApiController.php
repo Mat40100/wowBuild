@@ -22,7 +22,7 @@ class ApiController extends AbstractController
         }
 
         $accessToken = $provider->getAccessToken('authorization_code', [
-            'code' => $_GET['code']
+            'code' => $code
         ]);
 
         // We have an access token, which we may use in authenticated
