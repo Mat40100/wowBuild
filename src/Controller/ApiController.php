@@ -28,9 +28,9 @@ class ApiController extends AbstractController
 
         $client = new Client();
 
-        $req = $client->request('GET','https://us.api.blizzard.com/data/wow/playable-specialization/index?namespace=static-us&locale=en_US&access_token='.$accessToken->getToken());
-        echo $req->getStatusCode();
+        $req = $client->request('GET','https://eu.api.blizzard.com/data/wow/playable-specialization/index?namespace=static-us&locale=fr_EU&access_token='.$accessToken->getToken());
 
+        dump($req);
         die();
 
         return $this->redirectToRoute('app_api_oauth');
