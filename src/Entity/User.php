@@ -97,6 +97,11 @@ class User implements UserInterface
      */
     private $receivedMessage;
 
+    /**
+     * @ORM\Column(type="string", length=15, nullable=true)
+     */
+    private $apiState;
+
     public function __construct()
     {
         $this->builds = new ArrayCollection();
@@ -423,6 +428,18 @@ class User implements UserInterface
                 $receivedMessage->setMessageTo(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getApiState(): ?string
+    {
+        return $this->apiState;
+    }
+
+    public function setApiState(?string $apiState): self
+    {
+        $this->apiState = $apiState;
 
         return $this;
     }

@@ -15,22 +15,15 @@ class ApiController extends AbstractController
      */
     public function oauth(Request $request, ApiService $apiService)
     {
-        $code = $request->get('code');
-        $provider = $apiService->getProvider();
+       Request::createFromGlobals(
+            'https://eu.battle.net/oauth/authorize',
+            'GET',
+            $apiService->getDatas()
 
-        if ($code === null) {
-            return $this->redirect($provider->getAuthorizationUrl());
-        }
+        );
 
-        $accessToken = $provider->getAccessToken('authorization_code', [
-            'code' => $code
-        ]);
-
-        $client = new Client();
-
-        $req = $client->request('GET','https://eu.api.blizzard.com/data/wow/playable-specialization/index?namespace=static-us&locale=fr_EU&access_token='.$accessToken->getToken());
-
-        dump($req);
+        $response = $profileClient->post('oauth/authorize', ['query' => $apiService->getDatas()]);
+        dump($response);
         die();
 
         return $this->redirectToRoute('app_api_oauth');
