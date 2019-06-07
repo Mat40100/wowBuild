@@ -52,6 +52,11 @@ class WowClass
      */
     private $fontColor;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Template", mappedBy="Class", cascade={"persist", "remove"})
+     */
+    private $template;
+
     public function __construct()
     {
         $this->builds = new ArrayCollection();
@@ -169,6 +174,23 @@ class WowClass
     public function setFontColor(?string $fontColor): self
     {
         $this->fontColor = $fontColor;
+
+        return $this;
+    }
+
+    public function getTemplate(): ?Template
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(Template $template): self
+    {
+        $this->template = $template;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $template->getClass()) {
+            $template->setClass($this);
+        }
 
         return $this;
     }
